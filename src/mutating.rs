@@ -1,9 +1,9 @@
 pub struct BST<T> {
-    root: Option<Box<Node<T>>>,
+    pub root: Option<Box<Node<T>>>,
 }
 
 #[derive(Debug, PartialEq)]
-struct Node<T> {
+pub struct Node<T> {
     val: T,
     left: Option<Box<Node<T>>>,
     right: Option<Box<Node<T>>>
@@ -67,15 +67,4 @@ impl<T: Ord> Node<T> {
             &mut None => false
         }
     }
-}
-
-fn main() {
-    let mut bs = BST::<i32>::new();
-    for x in vec![3, 4, 5, 6] {
-        bs.insert(x);
-        println!("{:?}", bs.root);
-    }
-
-    println!("{:?}", bs.contains(4));
-    println!("{:?}", bs.contains(10));
 }
