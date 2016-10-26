@@ -112,13 +112,13 @@ impl<T> Iterator for InOrderIterator<T> {
 //
 // #[derive(PartialEq, Eq, Debug)]
 // pub enum Direction { Left, Right }
-// 
+//
 // #[derive(Debug)]
 // pub struct InOrderIterator<T> {
 //     path:    Vec<(T, Direction, Edge<T>)>,
 //     subtree: Edge<T>,
 // }
-// 
+//
 // impl<T> InOrderIterator<T> {
 //     // TODO none-public
 //     pub fn new(tree: BST<T>) -> Self {
@@ -127,7 +127,7 @@ impl<T> Iterator for InOrderIterator<T> {
 //             subtree: tree.root,
 //         }
 //     }
-// 
+//
 //     pub fn go_left(&mut self) {
 //         if let Some(boxnode) = mem::replace(&mut self.subtree, None) {
 //             let node = *boxnode;
@@ -136,7 +136,7 @@ impl<T> Iterator for InOrderIterator<T> {
 //             self.subtree = l;
 //         }
 //     }
-// 
+//
 //     pub fn go_right(&mut self) {
 //         if let Some(boxnode) = mem::replace(&mut self.subtree, None) {
 //             let node = *boxnode;
@@ -145,19 +145,19 @@ impl<T> Iterator for InOrderIterator<T> {
 //             self.subtree = r;
 //         }
 //     }
-// 
+//
 //     pub fn go_leftmost(&mut self) {
 //         while self.subtree.is_some() {
 //             self.go_left();
 //         }
 //     }
-// 
+//
 //     pub fn go_rightmost(&mut self) {
 //         while self.subtree.is_some() {
 //             self.go_right();
 //         }
 //     }
-// 
+//
 //     pub fn go_up(&mut self) -> Option<Direction> {
 //         self.path.pop().map(|(item, direction, sidetree)| {
 //             let subtree = mem::replace(&mut self.subtree, None);
@@ -174,10 +174,10 @@ impl<T> Iterator for InOrderIterator<T> {
 //         })
 //     }
 // }
-// 
+//
 // impl<T> Iterator for InOrderIterator<T> {
 //     type Item = T;
-// 
+//
 //     fn next(&mut self) -> Option<T> {
 //         match self.subtree {
 //             None => {
@@ -191,21 +191,10 @@ impl<T> Iterator for InOrderIterator<T> {
 
 #[macro_export]
 macro_rules! tree {
-    (
-        ($i:expr)
-    ) => (
-        $crate::moving::Node {
-            item: $i,
-            left:  None,
-            right: None,
-        }
-    )
-    ;
-    (
-            [ $l:tt ]
-        ($i:expr)
-            [ $r:tt ]
-    ) => (
+    ( ($i:expr) ) => (
+        $crate::moving::Node { item: $i, left:  None, right: None, }
+    );
+    ( [$i:expr => $l:tt, $r:tt] ) => (
         $crate::moving::Node {
             item: $i,
             left:  Some(Box::new(tree!($l))),
