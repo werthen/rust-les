@@ -10,9 +10,9 @@ type Edge<T> = Option<Box<Node<T>>>;
 
 #[derive(Debug)]
 pub struct Node<T> {
-    item: T,
-    left: Edge<T>,
-    right: Edge<T>,
+    pub item: T,
+    pub left: Edge<T>,
+    pub right: Edge<T>,
 }
 
 impl<T: Ord> BST<T> {
@@ -35,7 +35,7 @@ impl<T: Ord> BST<T> {
 }
 
 impl<T: Ord> Node<T> {
-    fn new(e: T) -> Self {
+    pub fn new(e: T) -> Self {
         Node { item: e, left: None, right: None }
     }
 
@@ -188,3 +188,28 @@ impl<T> Iterator for InOrderIterator<T> {
 //         }
 //     }
 // }
+
+#[macro_export]
+macro_rules! tree {
+    (
+        ($i:expr)
+    ) => (
+        $crate::moving::Node {
+            item: $i,
+            left:  None,
+            right: None,
+        }
+    )
+    ;
+    (
+            [ $l:tt ]
+        ($i:expr)
+            [ $r:tt ]
+    ) => (
+        $crate::moving::Node {
+            item: $i,
+            left:  Some(Box::new(tree!($l))),
+            right: Some(Box::new(tree!($r))),
+        }
+    );
+}
