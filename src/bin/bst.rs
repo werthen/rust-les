@@ -1,4 +1,5 @@
 
+#[macro_use(tree)]
 extern crate rustles;
 
 use rustles::moving;
@@ -54,4 +55,19 @@ fn moving() {
         println!("{}  {:?}", int, verify.get(i));
         i += 1;
     }
+
+    println!("-------------------");
+
+    let tr = moving::BST { root: Some(Box::new(tree!(
+        [ (8)
+        ] (6) [
+          (3)
+        ]
+    ))) };
+
+    for int in tr.into_iter() {
+        println!("{}", int);
+    }
+
+
 }
