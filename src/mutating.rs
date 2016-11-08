@@ -1,3 +1,6 @@
+
+use std::mem;
+
 pub struct BST<T> {
     pub root: Edge<T>
 }
@@ -62,3 +65,38 @@ impl<T: Ord> Node<T> {
         }
     }
 }
+
+pub struct InOrderIterator<T> {
+    remainder: Vec<Box<Node<T>>>,
+}
+
+impl<T> IntoIterator for BST<T> {
+    type Item = T;
+    type IntoIter = InOrderIterator<Self::Item>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        InOrderIterator {
+            remainder: self.root.into_iter().collect(),
+        }
+    }
+}
+
+impl<T> Iterator for InOrderIterator<T> {
+    type Item = T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.remainder.pop().map(|mut node| {
+            while let Some(leftbox) = mem::replace(&mut node.left, None) {
+                self.remainder.push(node);
+                node = leftbox;
+            }
+            let unboxed = *node;
+            let Node { val, left: _, right} = unboxed;
+            if let Some(right) = right {
+                self.remainder.push(right);
+            }
+            val
+        })
+    }
+}
+

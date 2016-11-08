@@ -19,6 +19,18 @@ fn mutating() {
 
     println!("{:?}", bs.contains(4));
     println!("{:?}", bs.contains(10));
+
+    let mut verify = Vec::with_capacity(30);
+    for x in 1 .. 9  { verify.push(x) }
+    for x in 0 .. 20 { verify.push((13 * x) % 100); bs.insert((13 * x) % 100); }
+    verify.sort();
+
+    let mut i = 0;
+    for int in bs.into_iter() {
+        println!("{}  {:?}", int, verify.get(i));
+        i += 1;
+    }
+
 }
 
 fn moving() {
@@ -45,29 +57,7 @@ fn moving() {
     println!("{:?}", bs.contains(4));
     println!("{:?}", bs.contains(10));
 
-    let mut verify = Vec::with_capacity(30);
-    for x in 1 .. 9  { verify.push(x) }
-    for x in 0 .. 20 { verify.push((13 * x) % 100); bs = bs.insert((13 * x) % 100); }
-    verify.sort();
-
-    let mut i = 0;
-    for int in bs.into_iter() {
-        println!("{}  {:?}", int, verify.get(i));
-        i += 1;
-    }
-
     println!("-------------------");
-
-    let tr = moving::BST { root: Some(Box::new(tree!(
-        [ (8)
-        ] (6) [
-          (3)
-        ]
-    ))) };
-
-    for int in tr.into_iter() {
-        println!("{}", int);
-    }
 
 
 }
